@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8" />
+<title>الساعة السحرية</title>
+<style>
+  :root{
+    --size: 600px;
+    --bg-img: url('https://i.ibb.co/V0xnxf62/clock-v3.jpg'); /* اسم الصورة */
+    --glow-color: #ff4da6;
+
+    /* مركز العقارب مضبوط */
+    --center-x: 53%;  
+    --center-y: 51%;  
+  }
+
+  body {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+    background:#111;
+  }
+
+  .clock {
+    width:var(--size);
+    height:var(--size);
+    background: var(--bg-img) center/contain no-repeat;
+    position:relative;
+  }
+
+  .hand {
+    position:absolute;
+    left: var(--center-x);
+    top: var(--center-y);
+    transform-origin: 50% 100%;
+    transform:translate(-50%,-100%) rotate(0deg);
+    border-radius:6px;
+  }
+
+  .hour {
+    width:8px;
+    height:110px;
+    background:#fff;
+    z-index:3;
+  }
+  .minute {
+    width:5px;
+    height:150px;
+    background:#ccc;
+    z-index:2;
+  }
+  .second {
+    width:2px;
+    height:190px;
+    background:var(--glow-color);
+    box-shadow:0 0 12px var(--glow-color);
+    z-index:1;
+  }
+
+  .pivot {
+    position:absolute;
+    left:var(--center-x);
+    top:var(--center-y);
+    transform:translate(-50%,-50%);
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background: var(--glow-color);
+    box-shadow:0 0 10px var(--glow-color);
+    z-index:10;
+  }
+</style>
+</head>
+<body>
+
+<div class="clock">
+  <div class="hand hour" id="hour"></div>
+  <div class="hand minute" id="minute"></div>
+  <div class="hand second" id="second"></div>
+  <div class="pivot"></div>
+</div>
+
+<script>
+function updateClock(){
+  const now = new Date();
+  const s = now.getSeconds();
+  const m = now.getMinutes() + s/60;
+  const h = (now.getHours()%12) + m/60;
+
+  document.getElementById('hour').style.transform =
+    `translate(-50%,-100%) rotate(${h*30}deg)`;
+  document.getElementById('minute').style.transform =
+    `translate(-50%,-100%) rotate(${m*6}deg)`;
+  document.getElementById('second').style.transform =
+    `translate(-50%,-100%) rotate(${s*6}deg)`;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+</body>
+</html>
